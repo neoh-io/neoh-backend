@@ -1,0 +1,121 @@
+.docker_setup: &docker_setup
+  image: tiangolo/docker-with-compose
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - pip install docker-auto-labels
+
+stages:
+  - lint
+  - build
+  - deploy
+
+mypy:
+  image: python:3.8
+  before_script:
+    - cd backend/app
+    - python -m pip install mypy sqlalchemy-stubs pydantic
+  stage: lint
+  script:
+    - mypy neoh_backend
+  tags:
+    - build
+  rules:
+    - allow_failure: true
+
+black:
+  image: python:3.8
+  before_script:
+    - cd backend/app
+    - python -m pip install black
+  stage: lint
+  script:
+    - black neoh_backend --check
+  tags:
+    - build
+  rules:
+    - allow_failure: true
+
+isort:
+  image: python:3.8
+  before_script:
+    - cd backend/app
+    - python -m pip install isort
+  stage: lint
+  script:
+    - isort --check-only neoh_backend
+  tags:
+    - build
+  rules:
+    - allow_failure: true
+
+flake8:
+  image: python:3.8
+  before_script:
+    - cd backend/app
+    - python -m pip install flake8
+  stage: lint
+  script:
+    - flake8
+  tags:
+    - build
+  rules:
+    - allow_failure: true
+  
+build-stag:
+  <<: *docker_setup
+  stage: build
+  script:
+    - TAG=stage sh ./scripts/build-push.sh
+  only:
+    - staging
+  environment:
+    name: staging
+  tags:
+    - build
+
+build-prod:
+  <<: *docker_setup
+  stage: build
+  script:
+    - TAG=prod sh ./scripts/build-push.sh
+  only:
+    - master
+  environment:
+    name: production
+  tags:
+    - build
+
+deploy-stag:
+  <<: *docker_setup
+  stage: deploy
+  script:
+    - >
+      DOMAIN=stage.neoh.io
+      STACK_NAME=neoh_backend
+      TAG=stag
+      sh ./scripts/deploy.sh
+  environment:
+    name: staging
+    url: https://stage.neoh.io
+  only:
+    - staging
+  tags:
+    - build
+
+deploy-prod:
+  <<: *docker_setup
+  stage: deploy
+  script:
+    - >
+      DOMAIN=neoh.io
+      STACK_NAME=neoh_backend
+      TAG=prod
+      sh ./scripts/deploy.sh
+  environment:
+    name: production
+    url: https://neoh.io
+  only:
+    - master
+  tags:
+    - build
+        

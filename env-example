@@ -1,0 +1,20 @@
+DOMAIN=localhost
+
+REGISTRY_HOST=changethis
+TAG=dev
+LOGGING_DRIVER=syslog
+STACK_NAME=neoh_backend
+DOCKER_IMAGE_BACKEND=backend
+DOCKER_IMAGE_CELERYWORKER=celeryworker
+
+BACKEND_CORS_ORIGINS=["http://localhost", "http://localhost:8080", "https://localhost", "https://localhost:8080", "https://neoh.io", "https://stage.neoh.io"]
+PROJECT_NAME="neoh Backend"
+
+POSTGRES_SERVER=db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_DB=neoh
+
+PGADMIN_LISTEN_PORT=5050
+PGADMIN_DEFAULT_EMAIL=admin@neoh.io
+PGADMIN_DEFAULT_PASSWORD=password

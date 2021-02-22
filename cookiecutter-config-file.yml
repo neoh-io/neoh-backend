@@ -1,0 +1,17 @@
+default_context:
+  project_name: 'neoh Backend'
+  project_slug: 'neoh_backend'
+  domain_name: 'neoh.io'
+  domain_staging: 'stage.neoh.io'
+  docker_swarm_stack_name: 'neoh_backend'
+  docker_logging_driver: 'syslog'
+  docker_registry_host: 'changethis'
+  postgres_password: "password"
+  postgres_database: "neoh"
+  pgadmin_default_user: "admin@neoh.io"
+  pgadmin_default_password: "password"
+  docker_image_backend: "backend"
+  docker_image_celeryworker: "celeryworker"
+  backend_cors_origins: "["http://localhost", "http://localhost:8080", "https://localhost", "https://localhost:8080", "https://neoh.io", "https://stage.neoh.io"]"
+  _template: ./
+  
