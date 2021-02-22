@@ -3,10 +3,10 @@ from __future__ import with_statement
 import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
-from neoh_backend.db.base import Base  # noqa
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
+
+from neoh_backend.db.base import Base  # noqa
 
 # Alembic config object, provides access to values in the .ini
 config = context.config
@@ -23,7 +23,8 @@ def get_url() -> str:
     password = os.getenv("POSTGRES_PASSWORD", "")
     server = os.getenv("POSTGRES_SERVER", "db")
     db = os.getenv("POSTGRES_DB", "messaging")
-    return f"postgresql://{user}:{password}@{server}/{db}"
+    # return f"postgresql://{user}:{password}@{server}/{db}"
+    return f"postgresql://postgres:password@localhost/neoh"
 
 
 def run_migrations_offline() -> None:
@@ -40,7 +41,11 @@ def run_migrations_offline() -> None:
     """
     url = get_url()
     context.configure(
-        url=url, target_metadata=target_metadata, literal_bind=True, compare_type=True
+        url=url,
+        target_metadata=target_metadata,
+        literal_bind=True,
+        compare_type=True,
+        include_schemas=True,
     )
 
     with context.begin_transaction():
@@ -64,7 +69,10 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata, compare_type=True
+            connection=connection,
+            target_metadata=target_metadata,
+            compare_type=True,
+            include_schemas=True,
         )
 
         with context.begin_transaction():

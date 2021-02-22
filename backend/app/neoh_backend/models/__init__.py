@@ -1,1 +1,1 @@
-from .item import Item
+from . import youtube  # noqa
