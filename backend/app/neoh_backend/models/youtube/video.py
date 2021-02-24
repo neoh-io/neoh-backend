@@ -1,12 +1,24 @@
-from sqlalchemy import Column, Integer, Text
+from sqlalchemy import Column, Text
+from sqlalchemy.orm import relationship
 
 from neoh_backend.db.base_class import Base
 
 
 class Video(Base):
     __tablename__ = "video"
-    id = Column(Integer, primary_key=True, index=True, nullable=False)
-    youtube_video_id = Column(Text, index=True, nullable=False)
+    __table_args__ = {"schema": "youtube"}
+
+    yt8m_id = Column(
+        Text,
+        nullable=True,
+        unique=True,
+        comment="See: http://research.google.com/youtube8m/video_id_conversion.html",
+    )
+    youtube_video_id = Column(
+        Text, nullable=False, unique=True, comment="Unique Youtube Video ID"
+    )
     title = Column(Text, nullable=False)
 
-    __table_args__ = {"schema": "youtube"}
+    video_mutable_metadata = relationship(
+        "youtube.video_mutable_metadata", uselist=False, back_populates=False
+    )

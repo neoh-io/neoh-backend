@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker-compose exec db psql -U postgres -c "DROP DATABASE neoh;"
+docker-compose exec db psql -U postgres -c "CREATE DATABASE neoh;"
+docker-compose exec db psql -U postgres neoh -c "CREATE SCHEMA youtube;"
+rm -rf /home/bkirkbride/Projects/neoh/neoh-backend/backend/app/alembic/versions/*.py
+
