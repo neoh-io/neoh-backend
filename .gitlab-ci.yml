@@ -18,7 +18,7 @@ mypy:
   script:
     - mypy neoh_backend
   tags:
-    - docker,gitlab-org
+    - lint
   rules:
     - allow_failure: true
 
@@ -31,7 +31,7 @@ black:
   script:
     - black neoh_backend --check
   tags:
-    - docker,gitlab-org
+    - lint
   rules:
     - allow_failure: true
 
@@ -44,7 +44,7 @@ isort:
   script:
     - isort --check-only neoh_backend
   tags:
-    - docker,gitlab-org
+    - lint
   rules:
     - allow_failure: true
 
@@ -57,7 +57,7 @@ flake8:
   script:
     - flake8
   tags:
-    - docker,gitlab-org
+    - lint
   rules:
     - allow_failure: true
   
