@@ -18,7 +18,7 @@ mypy:
   script:
     - mypy neoh_backend
   tags:
-    - build
+    - docker,gitlab-org
   rules:
     - allow_failure: true
 
@@ -31,7 +31,7 @@ black:
   script:
     - black neoh_backend --check
   tags:
-    - build
+    - docker,gitlab-org
   rules:
     - allow_failure: true
 
@@ -44,7 +44,7 @@ isort:
   script:
     - isort --check-only neoh_backend
   tags:
-    - build
+    - docker,gitlab-org
   rules:
     - allow_failure: true
 
@@ -57,7 +57,7 @@ flake8:
   script:
     - flake8
   tags:
-    - build
+    - docker,gitlab-org
   rules:
     - allow_failure: true
   
@@ -65,13 +65,13 @@ build-stag:
   <<: *docker_setup
   stage: build
   script:
-    - TAG=stage sh ./scripts/build-push.sh
+    - TAG=stag sh ./scripts/build-push.sh
   only:
     - staging
   environment:
     name: staging
   tags:
-    - build
+    - stag
 
 build-prod:
   <<: *docker_setup
@@ -83,7 +83,7 @@ build-prod:
   environment:
     name: production
   tags:
-    - build
+    - prod
 
 deploy-stag:
   <<: *docker_setup
@@ -96,11 +96,11 @@ deploy-stag:
       sh ./scripts/deploy.sh
   environment:
     name: staging
-    url: https://stage.neoh.io
+    url: https://stag.neoh.io
   only:
     - staging
   tags:
-    - build
+    - stag
 
 deploy-prod:
   <<: *docker_setup
@@ -117,5 +117,5 @@ deploy-prod:
   only:
     - master
   tags:
-    - build
+    - prod
         
