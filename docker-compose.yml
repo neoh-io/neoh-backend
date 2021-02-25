@@ -104,6 +104,8 @@ services:
         tag: 'pgadmin/{{.ID}}'
     env_file:
       - .env
+    volumes:
+      - app-pgadmin-data:/var/lib/pgadmin
     deploy:
       labels:
         - traefik.enable=true
@@ -204,6 +206,7 @@ services:
 volumes:
   app-db-data:
   app-flower-data:
+  app-pgadmin-data:
 
 networks:
   traefik-public:
