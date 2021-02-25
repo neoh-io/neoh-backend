@@ -3,9 +3,9 @@ from __future__ import with_statement
 import os
 from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from alembic import context
 from neoh_backend.db.base import Base  # noqa
 
 # Alembic config object, provides access to values in the .ini
@@ -23,8 +23,8 @@ def get_url() -> str:
     password = os.getenv("POSTGRES_PASSWORD", "")
     server = os.getenv("POSTGRES_SERVER", "db")
     db = os.getenv("POSTGRES_DB", "messaging")
-    # return f"postgresql://{user}:{password}@{server}/{db}"
-    return f"postgresql://postgres:password@localhost/neoh"
+    return f"postgresql://{user}:{password}@{server}/{db}"
+    # return f"postgresql://postgres:password@localhost/neoh"
 
 
 def run_migrations_offline() -> None:
