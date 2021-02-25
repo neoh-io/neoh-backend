@@ -14,10 +14,8 @@ class Video(Base):
         unique=True,
         comment="See: http://research.google.com/youtube8m/video_id_conversion.html",
     )
-    youtube_video_id = Column(
-        Text, nullable=False, unique=True, comment="Unique Youtube Video ID"
-    )
-    title = Column(Text, nullable=False)
+    youtube_video_id = Column(Text, unique=True, comment="Unique Youtube Video ID")
+    title = Column(Text)
 
     video_mutable_metadata = relationship(
         "youtube.video_mutable_metadata", uselist=False, back_populates=False
