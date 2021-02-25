@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+
+docker-compose exec db psql -U postgres -c "select pg_terminate_backend(pid) from pg_stat_activity where datname='neoh';"
 docker-compose exec db psql -U postgres -c "DROP DATABASE neoh;"
 docker-compose exec db psql -U postgres -c "CREATE DATABASE neoh;"
 docker-compose exec db psql -U postgres neoh -c "CREATE SCHEMA youtube;"
