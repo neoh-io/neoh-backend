@@ -79,7 +79,7 @@ build-prod:
   script:
     - TAG=prod sh ./scripts/build-push.sh
   only:
-    - master
+    - main
   environment:
     name: production
   tags:
@@ -90,7 +90,7 @@ deploy-stag:
   stage: deploy
   script:
     - >
-      DOMAIN=stage.neoh.io
+      DOMAIN=stag.neoh.io
       STACK_NAME=neoh_backend
       TAG=stag
       sh ./scripts/deploy.sh
@@ -115,7 +115,7 @@ deploy-prod:
     name: production
     url: https://neoh.io
   only:
-    - master
+    - main
   tags:
     - prod
         
