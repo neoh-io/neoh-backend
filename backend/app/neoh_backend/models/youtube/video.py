@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Text
+from sqlalchemy import Boolean, Column, Text
 from sqlalchemy.orm import relationship
 
 from neoh_backend.db.base_class import Base
@@ -16,6 +16,8 @@ class Video(Base):
     )
     youtube_video_id = Column(Text, unique=True, comment="Unique Youtube Video ID")
     title = Column(Text)
+    private = Column(Boolean, comment="true if unable to access true youtube video id")
+    embeddable = Column(Boolean)
 
     video_mutable_metadata = relationship(
         "youtube.video_mutable_metadata", uselist=False, back_populates=False
