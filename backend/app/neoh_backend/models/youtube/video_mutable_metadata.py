@@ -1,4 +1,13 @@
-from sqlalchemy import Column, Computed, ForeignKey, Integer, SmallInteger
+from sqlalchemy import (
+    Column,
+    Computed,
+    DateTime,
+    ForeignKey,
+    Integer,
+    SmallInteger,
+    select,
+    text,
+)
 from sqlalchemy.orm import relationship
 
 from neoh_backend.db.base_class import Base
@@ -17,5 +26,6 @@ class VideoMutableMetadata(Base):
         Computed("CEIL(LOG(views))"),
         comment="order of magnitude of the 'views' column",
     )
+    last_updated = Column(DateTime(timezone=True), server_default="now()")
 
     video = relationship("youtube.video", back_populates="video")
