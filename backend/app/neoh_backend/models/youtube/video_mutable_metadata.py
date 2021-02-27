@@ -5,8 +5,8 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     SmallInteger,
+    func,
     select,
-    text,
 )
 from sqlalchemy.orm import relationship
 
@@ -26,6 +26,6 @@ class VideoMutableMetadata(Base):
         Computed("CEIL(LOG(views))"),
         comment="order of magnitude of the 'views' column",
     )
-    last_updated = Column(DateTime(timezone=True), server_default="now()")
+    last_updated = Column(DateTime(timezone=True))
 
     video = relationship("youtube.video", back_populates="video")
